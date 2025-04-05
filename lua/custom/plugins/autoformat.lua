@@ -46,10 +46,10 @@ return {
       },
     }
 
-    vim.keymap.set('n', '<leader>swf', function()
+    vim.keymap.set('n', '<leader>W', function()
       vim.g.disable_autoformat = true
       vim.cmd 'write'
       vim.g.disable_autoformat = false
-    end, { desc = '[S]ave [W]ithout [F]ormatting' })
+    end, { desc = 'Save [W]ithout Formatting' })
   end,
 }

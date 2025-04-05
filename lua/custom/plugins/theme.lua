@@ -35,4 +35,19 @@ return {
       vim.cmd [[colorscheme sonokai]]
     end,
   },
+  {
+    'folke/tokyonight.nvim',
+    priority = 1000, -- Load early to set the colorscheme
+    opts = {},
+    config = function()
+      vim.g.tokyonight_style = 'night' -- Set to 'night' or 'day' depending on preference
+      vim.g.tokyonight_italic_comments = true -- Enable italic in comments (optional)
+      vim.g.tokyonight_italic_keywords = true -- Enable italic in keywords (optional)
+      vim.g.tokyonight_transparent_background = false -- Set to true for transparent background
+      vim.g.tokyonight_hide_inactive_statusline = true -- Hide inactive statusline
+
+      vim.o.background = 'dark' -- Ensure the background is set to dark
+      -- vim.cmd [[colorscheme tokyonight]]
+    end,
+  },
 }

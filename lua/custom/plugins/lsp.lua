@@ -10,15 +10,28 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local bufnr = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local snacks = require 'snacks.picker'
 
-    -- Define your mappings here
-    keymap('n', 'gd', require('telescope.builtin').lsp_definitions, { desc = '[G]oto [D]efinition', buffer = bufnr })
-    keymap('n', 'gr', require('telescope.builtin').lsp_references, { desc = '[G]oto [R]eferences', buffer = bufnr })
-    keymap('n', 'gI', require('telescope.builtin').lsp_implementations, { desc = '[G]oto [I]mplementation', buffer = bufnr })
-    keymap('n', '<leader>D', require('telescope.builtin').lsp_type_definitions, { desc = 'Type [D]efinition', buffer = bufnr })
-    keymap('n', '<leader>i', require('telescope.builtin').lsp_document_symbols, { desc = '[D]ocument [S]ymbols', buffer = bufnr })
-    keymap('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, { desc = '[W]orkspace [S]ymbols', buffer = bufnr })
-    keymap('n', '<leader>r', vim.lsp.buf.rename, { desc = '[R]e[n]ame', buffer = bufnr })
+    -- Define your mappings here using snacks.nvim
+    keymap('n', 'gd', function()
+      snacks.lsp_definitions()
+    end, { desc = '[G]oto [D]efinition', buffer = bufnr })
+    keymap('n', 'gr', function()
+      snacks.lsp_references()
+    end, { desc = '[G]oto [R]eferences', buffer = bufnr })
+    keymap('n', 'gI', function()
+      snacks.lsp_implementations()
+    end, { desc = '[G]oto [I]mplementation', buffer = bufnr })
+    keymap('n', 'gt', function()
+      snacks.lsp_type_definitions()
+    end, { desc = 'Type [D]efinition', buffer = bufnr })
+    keymap('n', '<leader>i', function()
+      snacks.lsp_symbols()
+    end, { desc = '[D]ocument [S]ymbols', buffer = bufnr })
+    keymap('n', '<leader>I', function()
+      snacks.lsp_workspace_symbols()
+    end, { desc = '[W]orkspace [S]ymbols', buffer = bufnr })
+    keymap('n', '<leader>r', vim.lsp.buf.rename, { desc = '[R]ename', buffer = bufnr })
     keymap({ 'n', 'x' }, '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction', buffer = bufnr })
 
     keymap('n', 'gh', function()
@@ -64,19 +77,16 @@ vim.diagnostic.config {
   virtual_text = {
     spacing = 4,
     prefix = '●',
-    -- Add background to virtual text
     format = function(diagnostic)
       return string.format('%s (%s) %s', diagnostic.message, diagnostic.source or '', diagnostic.code or '')
     end,
-    -- Background highlight for virtual text
     hl_mode = 'combine',
     severity = {
       min = vim.diagnostic.severity.HINT,
     },
   },
-  -- Nicer float window with border
   float = {
-    border = 'rounded', -- or your CUSTOM_BORDER
+    border = 'rounded',
     source = 'if_many',
     format = function(diagnostic)
       return string.format('%s\n\n[%s] %s', diagnostic.message, diagnostic.source or '', diagnostic.code or '')
@@ -96,12 +106,10 @@ vim.diagnostic.config {
       return icon .. ' ', hl
     end,
   },
-  -- Undercurl instead of plain underline
   underline = {
     severity = { min = vim.diagnostic.severity.WARN },
-    undercurl = true, -- smoother underlines
+    undercurl = true,
   },
-  -- Better signs in the gutter
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = '',
@@ -109,7 +117,6 @@ vim.diagnostic.config {
       [vim.diagnostic.severity.INFO] = '',
       [vim.diagnostic.severity.HINT] = '',
     },
-    -- Optional: number highlights (if you use it)
     numhl = {
       [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
       [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
@@ -117,9 +124,7 @@ vim.diagnostic.config {
       [vim.diagnostic.severity.HINT] = 'DiagnosticSignHint',
     },
   },
-  -- Update severity sorting (optional)
   severity_sort = true,
-  -- Disable signs if you prefer only virtual text
   update_in_insert = false,
 }
 
@@ -129,7 +134,6 @@ return {
     ft = 'lua',
     opts = {
       library = {
-        -- Load luvit types when the `vim.uv` word is found
         { path = 'luvit-meta/library', words = { 'vim%.uv' } },
       },
     },
@@ -144,14 +148,13 @@ return {
       { 'j-hui/fidget.nvim', opts = {} },
       'saghen/blink.cmp',
       'seblj/roslyn.nvim',
+      'folke/snacks.nvim', -- Added snacks.nvim as dependency
     },
     config = function()
-      -- Extracted capabilities for LSP
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
       capabilities.textDocument.signatureHelp = { dynamicRegistration = true }
 
-      -- LSP servers configuration
       local servers = {
         lua_ls = {
           settings = {
@@ -175,18 +178,16 @@ return {
 
       require('mason-tool-installer').setup {
         ensure_installed = {
-          'lua_ls', -- Lua Language Server
-          'stylua', -- Lua Formatter
-          'eslint', -- JavaScript/TypeScript Linter
-          'html', -- HTML Language Server
-          'cssls', -- CSS Language Server
-          'roslyn', -- C# Language Server
-          -- 'csharpier', -- C# Formatter
-          'typescript-language-server', -- TypeScript Language Server
-          'angular-language-server', -- Angular Language Server
+          'lua_ls',
+          'stylua',
+          'eslint',
+          'html',
+          'cssls',
+          'roslyn',
+          'typescript-language-server',
+          'angular-language-server',
           'prettier',
           'prettierd',
-          -- 'netcoredbg',
           'chrome-debug-adapter',
           'jsonls',
         },

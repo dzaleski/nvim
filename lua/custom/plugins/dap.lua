@@ -1,5 +1,56 @@
 return {
   {
+    'rcarriga/nvim-dap-ui',
+    config = function()
+      require('dapui').setup {
+        icons = {
+          expanded = '▾',
+          collapsed = '▸',
+          current_frame = '▸',
+          circular = '↻',
+        },
+        controls = {
+          icons = {
+            pause = '⏸',
+            play = '▶',
+            step_into = '↓',
+            step_over = '→',
+            step_out = '↑',
+            step_back = '←',
+            run_last = '↻',
+            terminate = '⏹',
+          },
+        },
+        floating = {
+          border = 'rounded',
+          mappings = {
+            close = { 'q', '<Esc>' },
+          },
+        },
+        layouts = {
+          {
+            elements = {
+              { id = 'scopes', size = 0.25 },
+              { id = 'breakpoints', size = 0.25 },
+              { id = 'stacks', size = 0.25 },
+              { id = 'watches', size = 0.25 },
+            },
+            position = 'left',
+            size = 40,
+          },
+          {
+            elements = {
+              { id = 'repl', size = 0.5 },
+              { id = 'console', size = 0.5 },
+            },
+            position = 'bottom',
+            size = 10,
+          },
+        },
+      }
+    end,
+  },
+  {
     'mfussenegger/nvim-dap',
     dependencies = {
       'mxsdev/nvim-dap-vscode-js',
@@ -84,6 +135,9 @@ return {
         vim.keymap.set('n', '<Leader>do', dap.step_over, { desc = '→ Step Over' })
         vim.keymap.set('n', '<Leader>du', dap.step_out, { desc = '↑ Step Out' })
         vim.keymap.set('n', '<Leader>dr', dap.restart, { desc = '🔄 Restart Debugging' })
+        vim.keymap.set('n', '<Leader>dn', function()
+          require('dap').goto_()
+        end, { desc = '➡️ Go to next breakpoint' })
 
         -- Breakpoint Management
         vim.keymap.set('n', '<Leader>drb', dap.clear_breakpoints, { desc = '❌ Remove All Breakpoints' })
@@ -119,57 +173,6 @@ return {
       dap.listeners.before.event_exited['dapui_config'] = function()
         dapui.close()
       end
-    end,
-  },
-  {
-    'rcarriga/nvim-dap-ui',
-    config = function()
-      require('dapui').setup {
-        icons = {
-          expanded = '▾',
-          collapsed = '▸',
-          current_frame = '▸',
-          circular = '↻',
-        },
-        controls = {
-          icons = {
-            pause = '⏸',
-            play = '▶',
-            step_into = '↓',
-            step_over = '→',
-            step_out = '↑',
-            step_back = '←',
-            run_last = '↻',
-            terminate = '⏹',
-          },
-        },
-        floating = {
-          border = 'rounded',
-          mappings = {
-            close = { 'q', '<Esc>' },
-          },
-        },
-        layouts = {
-          {
-            elements = {
-              { id = 'scopes', size = 0.25 },
-              { id = 'breakpoints', size = 0.25 },
-              { id = 'stacks', size = 0.25 },
-              { id = 'watches', size = 0.25 },
-            },
-            position = 'left',
-            size = 40,
-          },
-          {
-            elements = {
-              { id = 'repl', size = 0.5 },
-              { id = 'console', size = 0.5 },
-            },
-            position = 'bottom',
-            size = 10,
-          },
-        },
-      }
     end,
   },
   {

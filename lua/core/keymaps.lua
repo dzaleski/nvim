@@ -25,12 +25,8 @@ vim.keymap.set('n', '<Leader>l', '$', { desc = 'Move to end of line' })
 vim.keymap.set('n', '<Leader>h', '^', { desc = 'Move to start of line' })
 vim.keymap.set('n', '<Leader>w', ':w<CR>', { desc = 'Save file' })
 vim.keymap.set('n', '<Leader>r', vim.lsp.buf.rename, { desc = 'Rename symbol' })
-vim.keymap.set('n', '<Leader>fif', ':Telescope find_files<CR>', { desc = 'Find in files' })
-vim.keymap.set('n', '<Leader>i', ':Telescope lsp_document_symbols<CR>', { desc = 'Goto symbol' })
-vim.keymap.set('n', '<Leader>o', ':Telescope find_files<CR>', { desc = 'Quick open' })
 vim.keymap.set('n', '<Leader>q', ':bd<CR>', { desc = 'Close active buffer' })
 vim.keymap.set('n', '<Leader>Q', ':e #<CR>', { desc = 'Reopen last closed buffer' })
-vim.keymap.set('n', '<Leader>p', ':Telescope commands<CR>', { desc = 'Show commands' })
 vim.keymap.set('n', ']e', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
 vim.keymap.set('n', '[e', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
 vim.keymap.set('n', 'U', '<C-r>', { desc = 'Redo' })
@@ -38,7 +34,6 @@ vim.keymap.set('n', 'U', '<C-r>', { desc = 'Redo' })
 vim.keymap.set('n', '<S-h>', ':bprevious<CR>', { desc = 'Go to previous buffer' })
 vim.keymap.set('n', '<S-l>', ':bnext<CR>', { desc = 'Go to next buffer' })
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlight' })
-vim.keymap.set('n', '<A-w><A-l>', '<cmd>bufdo bwipeout<cr>', { desc = 'Close all buffers' })
 
 -- Windows
 vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move to left window' })
@@ -54,3 +49,7 @@ vim.keymap.set('n', '<D-k>', '<C-w>k', { desc = 'Move to above window Macos' })
 -- vim.keymap.set('n', '<D-j>', 'g;zz', { desc = 'Jump to the previous edit location Macos' })
 -- vim.keymap.set('n', '<C-h>', 'g,zz', { desc = 'Jump to the next edit location' })
 -- vim.keymap.set('n', '<D-h>', 'g,zz', { desc = 'Jump to the next edit location Macos' })
+--
+--
+--
+--something haha
